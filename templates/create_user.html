@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <h3>Dar de alta un usuario</h3>
+        <form method="POST">
+            <div class="mb-3">
+                <label>Nombre de usuario</label>
+                <input type="text" name="username" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label>Contraseña</label>
+                <input type="password" name="password" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label>Rol</label>
+                <select name="role" class="form-control">
+                    <option value="empleado">Empleado</option>
+                    <option value="admin">Administrador</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success w-100">Crear Usuario</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

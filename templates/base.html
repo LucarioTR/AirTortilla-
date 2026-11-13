@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>AirTortilla - Gestión</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('index') }}">AirTortilla</a>
+            {% if current_user.is_authenticated %}
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><span class="nav-link text-light">Usuario: <strong>{{ current_user.username }}</strong> ({{ current_user.role }})</span></li>
+                    {% if current_user.role == 'admin' %}
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('create_user') }}">Crear Usuario</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('view_audit_logs') }}">Trazabilidad</a></li>
+                    {% endif %}
+                    <li class="nav-item"><a class="nav-link btn btn-outline-danger btn-sm text-white ms-2" href="{{ url_for('logout') }}">Cerrar Sesión</a></li>
+                </ul>
+            {% endif %}
+        </div>
+    </nav>
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
