@@ -1,9 +1,70 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="p-5 mb-4 bg-white rounded-3 shadow-sm">
-    <div class="container-fluid py-5">
-        <h1 class="display-5 fw-bold">Panel Principal</h1>
-        <p class="col-md-8 fs-4">Bienvenido al sistema migrado a Base de Datos Relacional de AirTortilla.</p>
+<div class="row">
+    <div class="col-md-12 mb-4">
+        <div class="p-4 bg-white rounded-3 shadow-sm">
+            <h1 class="h3 fw-bold">Panel Principal - AirTortilla</h1>
+            <p class="text-muted">Bienvenido, <strong>{{ current_user.username }}</strong>. Aquí puedes consultar y reservar tus vuelos.</p>
+        </div>
+    </div>
+
+    <!-- Lista de Vuelos Disponibles -->
+    <div class="col-md-7">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-dark text-white">Vuelos Disponibles</div>
+            <div class="card-body">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Vuelo</th>
+                            <th>Ruta</th>
+                            <th>Salida</th>
+                            <th>Plazas</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for flight in flights %}
+                        <tr>
+                            <td><strong>{{ flight.flight_number }}</strong></td>
+                            <td>{{ flight.origin }} ➔ {{ flight.destination }}</td>
+                            <td>{{ flight.departure_time.strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td><span class="badge bg-secondary">{{ flight.seats_available }}</span></td>
+                            <td>
+                                <form action="{{ url_for('book_flight', flight_id=flight.id) }}" method="POST">
+                                    <button type="submit" class="btn btn-sm btn-primary {% if flight.seats_available == 0 %}disabled{% endif %}">Reservar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mis Reservas -->
+    <div class="col-md-5">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-secondary text-white">Mis Reservas Activas</div>
+            <div class="card-body">
+                {% if user_reservations %}
+                    <ul class="list-group">
+                        {% for res in user_reservations %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ res.flight.flight_number }}</strong><br>
+                                <small class="text-muted">{{ res.flight.origin }} ➔ {{ res.flight.destination }}</small>
+                            </div>
+                            <span class="badge bg-success rounded-pill">Confirmada</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-muted mb-0">No tienes reservas realizadas todavía.</p>
+                {% endif %}
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

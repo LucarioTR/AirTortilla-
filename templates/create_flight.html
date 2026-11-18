@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card shadow-sm p-4">
+            <h3 class="mb-3">Añadir Nuevo Vuelo</h3>
+            <form method="POST">
+                <div class="mb-3">
+                    <label>Número de Vuelo</label>
+                    <input type="text" name="flight_number" class="form-control" placeholder="Ej. AT-202" required>
+                </div>
+                <div class="mb-3">
+                    <label>Origen</label>
+                    <input type="text" name="origin" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label>Destino</label>
+                    <input type="text" name="destination" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label>Fecha y Hora de Salida</label>
+                    <input type="datetime-local" name="departure_time" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label>Asientos Disponibles</label>
+                    <input type="number" name="seats_available" class="form-control" value="50" required>
+                </div>
+                <button type="submit" class="btn btn-success w-100">Guardar Vuelo</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
